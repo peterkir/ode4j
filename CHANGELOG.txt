@@ -1,3 +1,6 @@
+- Issue #35: Avoid garbage collection of DContact. This is now implemented without pooling but with reusing
+  DContact instances in place.
+
 0.4.0
 =====
 - Fixed javadoc to compile without warnings

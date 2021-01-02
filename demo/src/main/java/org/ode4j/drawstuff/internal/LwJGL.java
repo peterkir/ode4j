@@ -138,10 +138,13 @@ abstract class LwJGL extends Internal implements DrawStuffApi {
 					(Display.getDisplayMode().getHeight() - _height) / 2);
 		} catch (UnsatisfiedLinkError e) {
 			System.err.println("Missing lwjgl native libraries.");
-			System.err.println("If you are using maven, make sure to use "
+			System.err.println("If you are using maven, make sure to run 'mvn install', then use "
 					+ "'-Djava.library.path=target/natives' as VM argument of your application.");
 			System.err.println("For plain Eclipse, add the native library path to the included "
 					+ "lwjgl.jar in the definition of the Referenced Libraries.");
+			System.err.println("For IntelliJ, you may need to use " +
+					"'-Djava.library.path=demo/target/natives' because it defaults to the " +
+					"project root as working directory.");
 			throw e;
 		}
 		try {

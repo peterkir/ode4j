@@ -40,7 +40,7 @@ import org.ode4j.math.DVector3;
  * zero. This means that the normal vector points "in" to body 1.
  */
 public class DContactGeom {
-	
+
 	/** contact position */
 	public final DVector3 pos = new DVector3();          
     /** normal vector */
@@ -53,4 +53,24 @@ public class DContactGeom {
 	/** (to be documented) */
 	public int side1;       
 	public int side2;
+
+	public void nullify() {
+		 pos.setZero();
+		 normal.setZero();
+		 depth = 0;
+		 DGeom g1 = null;
+		 DGeom g2 = null;
+		 side1 = 0;
+		 side2 = 0;
+	}
+
+	public void set(DContactGeom other) {
+		pos.set(other.pos);
+		normal.set(other.normal);
+		depth = other.depth;
+		DGeom g1 = other.g1;
+		DGeom g2 = other.g2;
+		side1 = other.side1;
+		side2 = other.side2;
+	}
 }

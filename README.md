@@ -58,6 +58,12 @@ News
  * This is the last release built with Java 6.
 
 
+Performance Tips
+================
+One issue may be excessive garbage collection due to frequent allocation of `DContact` objects.
+To avoid this, these objects can be nullified and reused. See `DemoCards.nearCallback()` for an example.
+
+
 Legal
 =====
 

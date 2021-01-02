@@ -99,7 +99,7 @@ public class OdeJointsFactoryImpl extends OdeHelper {
 	{
 		dAASSERT (w, c);
 		DxJointContact j = createJoint(new DxJointContact((DxWorld) w), group);
-		j.contact = c;
+		j.setDContact(c);
 		return j;
 	}
 

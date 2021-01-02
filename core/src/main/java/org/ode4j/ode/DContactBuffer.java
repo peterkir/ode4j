@@ -59,4 +59,10 @@ public class DContactBuffer implements Iterable<DContact> {
 	public Iterator<DContact> iterator() {
 		return Collections.unmodifiableList(buf).iterator();
 	}
+
+	public void nullify() {
+		for (int i = 0; i < buf.size(); i++) {
+			buf.get(i).nullify();
+		}
+	}
 }
