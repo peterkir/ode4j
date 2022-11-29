@@ -591,6 +591,11 @@ public class CollideTrimeshSphere implements DColliderFn {
 		
 		for (int i=0;i<contactcount;i++)
 		{
+			// ode4j fix: see issue #76
+			// feature1: see gim_trimesh_sphere_collisionODE()
+			if (TriMesh.Callback.call(TriMesh, SphereGeom, ptrimeshcontacts.at0().getFeature1()) == 0) {
+				continue;
+			}
 	        pcontact = Contacts.getSafe(Flags, i);//SAFECONTACT(Flags, Contacts, i, Stride);
 
 //	        pcontact->pos[0] = ptrimeshcontacts->m_point[0];

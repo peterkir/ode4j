@@ -1240,6 +1240,11 @@ public class CollideTrimeshCCylinder implements DColliderFn {
 
 		for (int i=0;i<contactcount;i++)
 		{
+			// ode4j fix: see issue #76
+			// feature1: see gim_trimesh_capsule_collision()
+			if (TriMesh.Callback.call(TriMesh, gCylinder, ptrimeshcontacts.at0().getFeature1()) == 0) {
+				continue;
+			}
 	        pcontact = contacts.getSafe(flags, i);//SAFECONTACT(flags, contact, i, skip);
 
 //	        pcontact.pos[0] = ptrimeshcontacts.m_point[0];

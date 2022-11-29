@@ -209,6 +209,10 @@ public class CollideTrimeshRay implements DColliderFn {
 				TriMesh.RayCallback.call(TriMesh, RayGeom, contact_data.getFaceID(), 
 						contact_data.getU() , contact_data.getV()) != 0)
 		{
+			// ode4j fix: see issue #76
+			if (TriMesh.Callback.call(TriMesh, RayGeom, contact_data.getFaceID()) == 0) {
+				return 0;
+			}
 			DContactGeom Contact = Contacts.get();//&( Contacts[ 0 ] );
 			Contact.pos.set(contact_data.getPoint().f);//VEC_COPY(Contact.pos,contact_data.getPoint());
 			Contact.normal.set(contact_data.getNormal().f);//VEC_COPY(Contact.normal,contact_data.getNormal());

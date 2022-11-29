@@ -1524,6 +1524,11 @@ public class CollideTrimeshBox implements DColliderFn {
 		ptrimesh.gim_trimesh_unlocks_work_data();
 		collision_result.GIM_DYNARRAY_DESTROY();
 		for (int i = 0; i < contactcount; i++) {
+			// ode4j fix: see issue #76
+			// side1: see TestCollisionForSingleTriangle()
+			if (TriMesh.Callback.call(TriMesh, BoxGeom, cData.m_TempContactGeoms.get(i).side1) == 0) {
+				continue;
+			}
 			cData.m_ContactGeoms.get(i).depth = cData.m_TempContactGeoms.get(i).depth;
 			cData.m_ContactGeoms.get(i).g1 = cData.m_TempContactGeoms.get(i).g1;
 			cData.m_ContactGeoms.get(i).g2 = cData.m_TempContactGeoms.get(i).g2;

@@ -1031,6 +1031,7 @@ public abstract class OdeHelper {
 	 * @param space space
 	 * @param data user data
 	 * @param callback callback
+	 *                 NOTE: The callback is only called for Box, Capsule, Ray, Sphere and TriMesh. See issue #76.
 	 * @param arrayCallback array callback
 	 * @param rayCallback ray callback
 	 * @return trimesh
@@ -1039,6 +1040,34 @@ public abstract class OdeHelper {
 			 DTriArrayCallback arrayCallback, DTriRayCallback rayCallback) {
 		return DxTriMesh.dCreateTriMesh((DxSpace)space, (DxTriMeshData)data, 
 				callback, arrayCallback, rayCallback);
+	}
+
+	/**
+	 * Trimesh class
+	 * Construction.
+	 * @param space space
+	 * @param data user data
+	 * @return trimesh
+	 */
+	public static DTriMesh createTriMesh(DSpace space, DTriMeshData data) {
+		// TODO TZ Java 8: use lambdas!
+		return DxTriMesh.dCreateTriMesh((DxSpace) space, (DxTriMeshData) data,
+				new DTriCallback() {
+					@Override
+					public int call(DGeom TriMesh, DGeom RefObject, int TriangleIndex) {
+						return 1;
+					}
+				}, new DTriArrayCallback() {
+					@Override
+					public void call(DGeom TriMesh, DGeom RefObject, int[] TriIndices, int TriCount) {
+
+					}
+				}, new DTriRayCallback() {
+					@Override
+					public int call(DGeom TriMesh, DGeom Ray, int TriangleIndex, double u, double v) {
+						return 1;
+					}
+				});
 	}
 
 	/**

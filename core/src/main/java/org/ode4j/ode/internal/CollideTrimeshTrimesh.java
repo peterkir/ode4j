@@ -102,6 +102,13 @@ public class CollideTrimeshTrimesh implements DColliderFn {
 		
 		for (int i=0;i<contactcount;i++)
 		{
+			// ode4j fix: see issue #76
+			if (TriMesh1.Callback.call(TriMesh1, TriMesh2, ptrimeshcontacts.at0().getFeature1()) == 0) {
+				continue;
+			}
+			if (TriMesh2.Callback.call(TriMesh2, TriMesh1, ptrimeshcontacts.at0().getFeature2()) == 0) {
+				continue;
+			}
 	        pcontact = Contacts.getSafe(Flags, i);//SAFECONTACT(Flags, Contacts, i, Stride);
 	        ptrimeshcontact = ptrimeshcontacts.at(i);
 
