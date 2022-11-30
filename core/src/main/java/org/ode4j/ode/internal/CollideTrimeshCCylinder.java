@@ -1237,15 +1237,16 @@ public class CollideTrimeshCCylinder implements DColliderFn {
 		}
 
 	    DContactGeom pcontact;
-
+		int nActualContacts = 0;
 		for (int i=0;i<contactcount;i++)
 		{
 			// ode4j fix: see issue #76
 			// feature1: see gim_trimesh_capsule_collision()
-			if (TriMesh.Callback.call(TriMesh, gCylinder, ptrimeshcontacts.at0().getFeature1()) == 0) {
+			if (TriMesh.invokeCallback(TriMesh, gCylinder, ptrimeshcontacts.at0().getFeature1()) == 0) {
+				ptrimeshcontacts.inc();
 				continue;
 			}
-	        pcontact = contacts.getSafe(flags, i);//SAFECONTACT(flags, contact, i, skip);
+	        pcontact = contacts.getSafe(flags, nActualContacts);//SAFECONTACT(flags, contact, i, skip);
 
 //	        pcontact.pos[0] = ptrimeshcontacts.m_point[0];
 //	        pcontact.pos[1] = ptrimeshcontacts.m_point[1];
@@ -1266,11 +1267,12 @@ public class CollideTrimeshCCylinder implements DColliderFn {
 	        pcontact.side2 = -1;
 	        
 	        ptrimeshcontacts.inc();//++;
+			nActualContacts++;
 		}
 
 		trimeshcontacts.GIM_DYNARRAY_DESTROY();
 
-	    return contactcount;
+	    return nActualContacts;
 	}
 //	#endif //GIMPACT
 

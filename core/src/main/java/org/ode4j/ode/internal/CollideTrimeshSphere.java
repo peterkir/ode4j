@@ -588,15 +588,17 @@ public class CollideTrimeshSphere implements DColliderFn {
 		}
 
 	    DContactGeom pcontact;
-		
+
+		int nActualContacts = 0;
 		for (int i=0;i<contactcount;i++)
 		{
 			// ode4j fix: see issue #76
 			// feature1: see gim_trimesh_sphere_collisionODE()
-			if (TriMesh.Callback.call(TriMesh, SphereGeom, ptrimeshcontacts.at0().getFeature1()) == 0) {
+			if (TriMesh.invokeCallback(TriMesh, SphereGeom, ptrimeshcontacts.at0().getFeature1()) == 0) {
+				ptrimeshcontacts.inc();
 				continue;
 			}
-	        pcontact = Contacts.getSafe(Flags, i);//SAFECONTACT(Flags, Contacts, i, Stride);
+	        pcontact = Contacts.getSafe(Flags, nActualContacts);//SAFECONTACT(Flags, Contacts, i, Stride);
 
 //	        pcontact->pos[0] = ptrimeshcontacts->m_point[0];
 //	        pcontact->pos[1] = ptrimeshcontacts->m_point[1];
@@ -617,11 +619,12 @@ public class CollideTrimeshSphere implements DColliderFn {
 	        pcontact.side2 = -1;
 
 	        ptrimeshcontacts.inc();//++;
+			nActualContacts++;
 		}
 
 		trimeshcontacts.GIM_DYNARRAY_DESTROY();
 
-	    return contactcount;
+	    return nActualContacts;
 	}
 //	#endif // dTRIMESH_GIMPACT
 

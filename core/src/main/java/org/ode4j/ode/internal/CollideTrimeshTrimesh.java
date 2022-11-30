@@ -99,18 +99,19 @@ public class CollideTrimeshTrimesh implements DColliderFn {
 
 	    DContactGeom pcontact;
 	    GimContact ptrimeshcontact;
-		
+
+		int nActualContacts = 0;
 		for (int i=0;i<contactcount;i++)
 		{
+			ptrimeshcontact = ptrimeshcontacts.at(i);
 			// ode4j fix: see issue #76
-			if (TriMesh1.Callback.call(TriMesh1, TriMesh2, ptrimeshcontacts.at0().getFeature1()) == 0) {
+			if (TriMesh1.invokeCallback(TriMesh1, TriMesh2, ptrimeshcontact.getFeature1()) == 0) {
 				continue;
 			}
-			if (TriMesh2.Callback.call(TriMesh2, TriMesh1, ptrimeshcontacts.at0().getFeature2()) == 0) {
+			if (TriMesh2.invokeCallback(TriMesh2, TriMesh1, ptrimeshcontact.getFeature2()) == 0) {
 				continue;
 			}
-	        pcontact = Contacts.getSafe(Flags, i);//SAFECONTACT(Flags, Contacts, i, Stride);
-	        ptrimeshcontact = ptrimeshcontacts.at(i);
+	        pcontact = Contacts.getSafe(Flags, nActualContacts);//SAFECONTACT(Flags, Contacts, i, Stride);
 
 //	        pcontact->pos[0] = ptrimeshcontacts->m_point[0];
 //	        pcontact->pos[1] = ptrimeshcontacts->m_point[1];
@@ -131,11 +132,12 @@ public class CollideTrimeshTrimesh implements DColliderFn {
 	        pcontact.side2 = ptrimeshcontact.getFeature2();
 
 	        //ptrimeshcontacts.inc();//++;
+			nActualContacts++;
 		}
 
 		trimeshcontacts.GIM_DYNARRAY_DESTROY();
 
-	    return contactcount;
+	    return nActualContacts;
 	}
 
 	

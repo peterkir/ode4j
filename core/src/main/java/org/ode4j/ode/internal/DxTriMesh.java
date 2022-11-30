@@ -25,6 +25,7 @@
 package org.ode4j.ode.internal;
 
 import org.ode4j.math.DVector3;
+import org.ode4j.ode.DGeom;
 import org.ode4j.ode.DTriMesh;
 import org.ode4j.ode.OdeConfig;
 
@@ -90,5 +91,15 @@ public abstract class DxTriMesh extends DxGeom implements DTriMesh {
 	 * > PI for boundary edges
 	 */
 	abstract public float getEdgeAngle(int triangle, int edge);
+
+	/**
+	 * ode4j: Added as part of issue #79
+	 */
+	public final int invokeCallback(DGeom TriMesh, DGeom RefObject, int TriangleIndex) {
+		if (Callback != null) {
+			return Callback.call(TriMesh, RefObject, TriangleIndex);
+		}
+		return 1;
+	}
 }
 

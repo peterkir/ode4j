@@ -205,12 +205,15 @@ public class CollideTrimeshRay implements DColliderFn {
 		}
 
 
-		if(TriMesh.RayCallback==null || 
-				TriMesh.RayCallback.call(TriMesh, RayGeom, contact_data.getFaceID(), 
+		if(TriMesh.RayCallback==null ||
+				TriMesh.RayCallback.call(TriMesh, RayGeom, contact_data.getFaceID(),
 						contact_data.getU() , contact_data.getV()) != 0)
 		{
 			// ode4j fix: see issue #76
-			if (TriMesh.Callback.call(TriMesh, RayGeom, contact_data.getFaceID()) == 0) {
+			// TODO TZ this just returns "0" if the callback for the first "hit" returns false.
+			//     It should probably check for other contacts. However, apparently even for closestHit=false,
+			//     there is only ever one contact created.
+			if (TriMesh.invokeCallback(TriMesh, RayGeom, contact_data.getFaceID()) == 0) {
 				return 0;
 			}
 			DContactGeom Contact = Contacts.get();//&( Contacts[ 0 ] );
