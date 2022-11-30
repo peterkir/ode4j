@@ -1,4 +1,4 @@
-- Fixed missing callback to Trimesh callbacks, see issue #79
+- Fixed missing callback to Trimesh callbacks, see issue #76
 
 0.4.0
 =====
